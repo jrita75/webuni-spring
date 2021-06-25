@@ -1,7 +1,6 @@
 package hu.webuni.hr.rita;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
