@@ -47,6 +47,7 @@ public class SmartEmployeeService implements EmployeeService  {
 		} else {
 			percent = percent4;
 		}*/
+		/*
 		if (years >= config.getSmart().getLimit1()) { 
 			percent = config.getSmart().getPercent1();
 		} else if (years >= config.getSmart().getLimit2()) {
@@ -56,6 +57,33 @@ public class SmartEmployeeService implements EmployeeService  {
 		} else {
 			percent = config.getSmart().getPercent4();
 		}
+		*/
+		float limits[] = config.getSmart().getLimits();
+		int percents[] = config.getSmart().getPercents();
+		
+		percent = config.getSmart().getPercent();
+		if (limits.length == percents.length) 
+		{
+			float old_limit = -1;
+			for(int i=0; i<limits.length; i++)
+			{
+				if ((i>0) & (limits[i]>=old_limit))
+				{
+					throw new java.lang.Error("Limits must be in a descending order");
+				}
+				old_limit = limits[i];
+			}
+			for(int i=0; i<limits.length; i++)
+			{
+				if (years>=limits[i]) {
+					percent = percents[i];
+					break;
+				} 
+			}
+		} else {
+			throw new java.lang.Error("Limits and percents with different lenght.");
+		}
+		
 		return percent;
 	}
 

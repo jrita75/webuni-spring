@@ -47,6 +47,12 @@ public class HrConfigProperties {
 		private int percent2;
 		private int percent3;
 		private int percent4;
+		
+		/////////////////////
+		private float limits[];
+		private int percents[];
+		private int percent;
+		
 		public float getLimit1() {
 			return limit1;
 		}
@@ -88,6 +94,25 @@ public class HrConfigProperties {
 		}
 		public void setPercent4(int percent4) {
 			this.percent4 = percent4;
+		}
+		////////////////////////////
+		public float[] getLimits() {
+			return limits;
+		}
+		public void setLimits(float[] limits) {
+			this.limits = limits;
+		}
+		public int[] getPercents() {
+			return percents;
+		}
+		public void setPercents(int[] percents) {
+			this.percents = percents;
+		}
+		public int getPercent() {
+			return percent;
+		}
+		public void setPercent(int percent) {
+			this.percent = percent;
 		}
 		
 		

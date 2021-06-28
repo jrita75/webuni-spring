@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: smart
+    active: "smart"
 
 hr:
   def:
-    percent: 5
+    percent: 10
   smart:
     limit1: 10
     percent1: 10
