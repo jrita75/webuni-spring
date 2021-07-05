@@ -1,6 +1,7 @@
 package hu.webuni.hr.rita.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Employee {
@@ -9,7 +10,21 @@ public class Employee {
 	private String position;
 	private int salary;
 	private LocalDateTime employedSince;
+	private String employedSinceStr;
 	
+	public void setEmployedSinceStr(String employedSinceStr) {
+		this.employedSinceStr = employedSinceStr;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		this.employedSince = LocalDateTime.parse(employedSinceStr, formatter);
+	}
+	
+	public String getEmployedSinceStr() {
+		return employedSinceStr;
+	}
+
+	public Employee() {
+		
+	}
 	public Employee(Long id, String name, String position, int salary, LocalDateTime employedSince) {
 		super();
 		this.id = id;
@@ -65,6 +80,8 @@ public class Employee {
 	}
 	public void setEmployedSince(LocalDateTime employedSince) {
 		this.employedSince = employedSince;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		this.employedSinceStr = employedSince.format(formatter);
 	}
 	
 	
