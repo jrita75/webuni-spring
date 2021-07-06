@@ -20,7 +20,7 @@
 	Name: <input th:field="*{name}" /> <br />
 	Position: <input th:field="*{position}" /> <br />
 	Salary: <input th:field="*{salary}" /> <br />
-	Employed since: <input th:field="*{employedSinceStr}" /> <br />
+	Employed since: <input type="datetime-local" th:value="*{employedSince}" th:field="*{employedSince}"/> <br />
 	<input type = "submit" value="Add" />
 </form>
 </body>
