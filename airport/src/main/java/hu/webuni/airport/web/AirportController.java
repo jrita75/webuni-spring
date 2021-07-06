@@ -20,11 +20,13 @@ import hu.webuni.airport.dto.AirportDto;
 @RestController
 @RequestMapping("/api/airports")
 public class AirportController {
+	
 	private Map<Long, AirportDto> airports = new HashMap<>();
 	{
 		airports.put(1L, new AirportDto(1L, "abc", "XYZ"));
 		airports.put(2L, new AirportDto(2L, "def", "UVW"));
 	}
+	
 	@GetMapping
 	public List<AirportDto> getAll()
 	{
@@ -40,8 +42,6 @@ public class AirportController {
 			return ResponseEntity.ok(airportDto);
 		else
 			return ResponseEntity.notFound().build();
-			
-		
 	}
 	
 	@PostMapping
@@ -52,7 +52,7 @@ public class AirportController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<AirportDto> modifyAirport(@PathVariable long id,@RequestBody AirportDto airportDto) {
+	public ResponseEntity<AirportDto> modifyAirport(@PathVariable long id, @RequestBody AirportDto airportDto) {
 		if (!airports.containsKey(id)) {
 			return ResponseEntity.notFound().build();
 		} else 
@@ -65,8 +65,7 @@ public class AirportController {
 	
 	@DeleteMapping("/{id}")
 	public void deleteAirport(@PathVariable long id) {
-		airports.remove(id);
-		
+		airports.remove(id);	
 	}
 	
 }
