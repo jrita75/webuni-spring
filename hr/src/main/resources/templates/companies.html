@@ -20,19 +20,16 @@
 		</style>
 	</head>
 	<body>
-	<h1>List of employees</h1>
+	<h1>List of companies</h1>
 	<ul>
-		<li th:each="employee : ${employees}">
-			<span th:text="${employee.id}">id</span>
-			<!-- span th:text="${employee.name}" >name</span-->
-			<a th:href="@{/edit_employee(id=${employee.id})}" th:text="${employee.name}">name</a>
-			<span th:text="${employee.position}">position</span>
-			<span th:text="${employee.salary}" style="text-align:right">salary</span>
-			<span th:text="${employee.employedSince}">employedSince</span>
-			<a th:href="@{/delete_employee(id=${employee.id})}">Töröl</a>
+		<li th:each="company : ${companies}">
+			<span th:text="company">id</span>
+			<span th:text="${company.name}" >name</span>
+			<span th:text="${company.reg_number}">reg_number</span>
+			<span th:text="${company.address}">address</span>
 		</li>
 	</ul>
-	<h1>New employee</h1>
+	<!--  h1>New employee</h1>
 	<form th:action="@{/employees}" th:method="post" th:object="${newEmployee}">
 		<label for="id">Id:</label>
 		<input th:field="*{id}" id="id" /> <br />
@@ -44,9 +41,8 @@
 		<input type="number" th:field="*{salary}" id="salary" /> <br />
 		<label for="since">Employed since:</label>
 		<input type="datetime-local" th:value="*{employedSince}" th:field="*{employedSince}" id="since"/> <br />
-		<!--label for="btn"></label-->
 		<br />
 		<input type = "submit" value="Add" id="btn" />
-	</form>
+	</form-->
 	</body>
 </html>
