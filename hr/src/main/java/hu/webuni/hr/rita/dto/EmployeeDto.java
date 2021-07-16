@@ -2,11 +2,19 @@ package hu.webuni.hr.rita.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;	
+
 public class EmployeeDto {
 	private Long id;
+	@NotEmpty
 	private String name;
+	@NotEmpty
 	private String position;
+	@Min(1)
 	private int salary;
+	@Past
 	private LocalDateTime employedSince;
 	public Long getId() {
 		return id;

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,14 +52,14 @@ public class EmployeeController {
 	}
 	
 	@PostMapping
-	public EmployeeDto createEmployee(@RequestBody EmployeeDto employeeDto)
+	public EmployeeDto createEmployee(@RequestBody @Valid EmployeeDto employeeDto)
 	{
 		employees.put(employeeDto.getId(), employeeDto);
 		return employeeDto;
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody EmployeeDto employeeDto)
+	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto)
 	{
 		ResponseEntity<EmployeeDto> ret;
 		if (employees.containsKey(id)) {
