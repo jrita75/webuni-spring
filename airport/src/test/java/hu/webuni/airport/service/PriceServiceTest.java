@@ -1,14 +1,15 @@
 package hu.webuni.airport.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+
+import static org.mockito.Mockito.*;
+
+
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,7 +30,7 @@ public class PriceServiceTest {
 	
 	@Test
 	void testGetFinalPrice2() throws Exception {
-		Mockito.when(discountService.getDiscountPercent(100)).thenReturn(5);
+		when(discountService.getDiscountPercent(100)).thenReturn(5);
 		
 		int newPrice = priceService.getFinalPrice(100);
 		assertThat(newPrice).isEqualTo(95);

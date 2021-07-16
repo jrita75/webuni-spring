@@ -8,7 +8,7 @@ import hu.webuni.hr.rita.config.HrConfigProperties;
 import hu.webuni.hr.rita.model.Employee;
 
 @Service
-public class SmartEmployeeService implements EmployeeService  {
+public class SmartEmployeeService extends EmployeeService  {
 
 	/*@Value("${hr.smart.limit1}")
 	private double limit1;

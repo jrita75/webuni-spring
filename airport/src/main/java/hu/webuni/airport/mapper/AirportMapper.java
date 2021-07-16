@@ -2,8 +2,6 @@ package hu.webuni.airport.mapper;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.mapstruct.Mapper;
 
 import hu.webuni.airport.dto.AirportDto;
