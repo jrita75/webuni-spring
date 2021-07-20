@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.OptionalLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -75,7 +74,7 @@ public class EmployeeControllerIT {
 	}
 	
 	@Test
-	public void testmodifyEmptyPosition() throws Exception {
+	public void testModifyEmptyPosition() throws Exception {
 		LocalDateTime today = LocalDateTime.now();
 		LocalDateTime yesterday = today.minusDays(1);
 		modifyBadEmployee("Ötöske", "", 250000, yesterday);
@@ -106,10 +105,30 @@ public class EmployeeControllerIT {
 	}
 	
 	public void createEmployee(String name, String position, int salary, LocalDateTime employedSince, HttpStatus status) throws Exception {
-		long nextId = getMaxId()+1L;
-		Employee newEmployee = new Employee(nextId, name, position, salary, employedSince);
+		
+		List<EmployeeDto> before_emp_list = getAllEmployees();
+		long max_id = before_emp_list.stream().mapToLong(e -> e.getId()).max().orElse(0);
+		long nextId = max_id+1L;
+		
+		EmployeeDto newEmployee = new EmployeeDto(nextId, name, position, salary, employedSince);
 		StatusAssertions expectStatus = webTestClient.post().uri(BASE_URI).bodyValue(newEmployee).exchange().expectStatus();
 		expectStatus.isEqualTo(status);
+		
+		List<EmployeeDto> after_emp_list = getAllEmployees();
+		
+		if (status == HttpStatus.OK) {
+			assertThat(after_emp_list.subList(0, before_emp_list.size()))
+			.usingRecursiveFieldByFieldElementComparator()
+			.containsExactlyElementsOf(before_emp_list);
+			
+			assertThat(after_emp_list.get(after_emp_list.size()-1))
+			.usingRecursiveComparison()
+			.isEqualTo(newEmployee);
+		} else {
+			assertThat(after_emp_list)
+			.usingRecursiveFieldByFieldElementComparator()
+			.containsExactlyElementsOf(before_emp_list);
+		}
 	}
 	
 	public void modifyBadEmployee(String name, String position, int salary, LocalDateTime employedSince) throws Exception {
@@ -121,7 +140,9 @@ public class EmployeeControllerIT {
 	}
 	
 	public void modifyEmployee(String name, String position, int salary, LocalDateTime employedSince, HttpStatus status) throws Exception {
-		long maxId = getMaxId();
+		List<EmployeeDto> before_emp_list = getAllEmployees();
+		long maxId = before_emp_list.stream().mapToLong(e -> e.getId()).max().orElse(0);
+		
 		Employee newEmployee = new Employee(maxId, name, position, salary, employedSince);
 		StatusAssertions expectStatus = webTestClient.put()
 				.uri(BASE_URI+"/{id}", maxId)
@@ -129,6 +150,22 @@ public class EmployeeControllerIT {
 				.exchange()
 				.expectStatus();
 		expectStatus.isEqualTo(status);
+		
+		List<EmployeeDto> after_emp_list = getAllEmployees();
+		
+		if (status == HttpStatus.OK) {
+			assertThat(after_emp_list.subList(0, before_emp_list.size()-1))
+			.usingRecursiveFieldByFieldElementComparator()
+			.containsExactlyElementsOf(before_emp_list.subList(0, before_emp_list.size()-1));
+			
+			assertThat(after_emp_list.get(after_emp_list.size()-1))
+			.usingRecursiveComparison()
+			.isEqualTo(newEmployee);
+		} else {
+			assertThat(after_emp_list)
+			.usingRecursiveFieldByFieldElementComparator()
+			.containsExactlyElementsOf(before_emp_list);
+		}
 	}
 	
 	private List<EmployeeDto> getAllEmployees() {
@@ -140,14 +177,9 @@ public class EmployeeControllerIT {
 		.expectBodyList(EmployeeDto.class)
 		.returnResult().getResponseBody();
 		
-		// Collections.sort(responseList, (a1, a2)->Long.compare(a1.getId(), a2.getId()));
+		Collections.sort(responseList, (e1, e2)->Long.compare(e1.getId(), e2.getId()));
 		return responseList;
 	}
 	
-	public long getMaxId() {
-		List<EmployeeDto> emp_list = getAllEmployees();
-		OptionalLong max_id = emp_list.stream().mapToLong(e -> e.getId()).max();
-		return max_id.orElse(0);
-	}
 	
 }
