@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,70 +27,70 @@ public class EmployeeControllerIT {
 	
 	@Test
 	public void testCreateWorkInTheFuture() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime tomorrow = today.plusDays(1);
 		createBadEmployee("Ötöske", "tesztelő", 250000, tomorrow);
 	}
 	
 	@Test
 	public void testCreateEmptyName() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		createBadEmployee("", "tesztelő", 250000, yesterday);
 	}
 	
 	@Test
 	public void testCreateEmptyPosition() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		createBadEmployee("Ötöske", "", 250000, yesterday);
 	}
 	
 	@Test
 	public void testCreateNegativeSalary() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		createBadEmployee("Ötöske", "tesztelő", -250000, yesterday);
 	}
 	
 	@Test
 	public void testCreateGood() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		createGoodEmployee("Ötöske", "tesztelő", 250000, yesterday);
 	}
 	
 	@Test
 	public void testModifyWorkInTheFuture() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime tomorrow = today.plusDays(1);
 		modifyBadEmployee("Ötöske", "tesztelő", 250000, tomorrow);
 	}
 	
 	@Test
 	public void testModifyEmptyName() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		modifyBadEmployee("", "tesztelő", 250000, yesterday);
 	}
 	
 	@Test
 	public void testModifyEmptyPosition() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		modifyBadEmployee("Ötöske", "", 250000, yesterday);
 	}
 	
 	@Test
 	public void testModifyNegativeSalary() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		modifyBadEmployee("Ötöske", "tesztelő", -250000, yesterday);
 	}
 	
 	@Test
 	public void testModifyGood() throws Exception {
-		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 		LocalDateTime yesterday = today.minusDays(1);
 		modifyGoodEmployee("Ötöske", "tesztelő", 250000, yesterday);
 	}

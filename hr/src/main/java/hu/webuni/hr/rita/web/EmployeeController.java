@@ -1,11 +1,13 @@
 package hu.webuni.hr.rita.web;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +27,6 @@ import hu.webuni.hr.rita.service.EmployeeService;
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
-	/*private Map<Long, EmployeeDto> employees = new HashMap<>();
-	{
-		employees.put(1L, new EmployeeDto(1L, "Egyeske", "titkárnő", 250000, LocalDateTime.of(2020, 1, 1, 0, 0)));
-		employees.put(2L, new EmployeeDto(2L, "Ketteske", "tesztelő", 250000, LocalDateTime.of(2018, 1, 1, 0, 0)));
-		employees.put(3L, new EmployeeDto(3L, "Hármaska", "tesztelő", 250000, LocalDateTime.of(2017, 1, 1, 0, 0)));
-		employees.put(4L, new EmployeeDto(4L, "Négyeske", "tesztelő", 250000, LocalDateTime.of(2010, 1, 1, 0, 0)));
-		employees.put(5L, new EmployeeDto(5L, "Ötöske", "tesztelő", 250000, LocalDateTime.of(2018, 11, 1, 0, 0)));
-	}*/
 	
 	@Autowired
 	EmployeeService employeeService;
@@ -100,6 +94,28 @@ public class EmployeeController {
 		}
 		
 		return ret;
+	}
+	
+	@GetMapping("/position")
+	public List<EmployeeDto> getWithPosition(@RequestParam("position") String position)
+	{
+		return employeeMapper.employeesToDtos(employeeService.findByPosition(position));
+		
+	}
+	
+	@GetMapping("/starts")
+	public List<EmployeeDto> getNameStratsWith(@RequestParam("name") String name)
+	{
+		return employeeMapper.employeesToDtos(employeeService.findByNameStartsWithIgnoreCase(name));
+		
+	}
+	
+	@GetMapping("/between")
+	public List<EmployeeDto> getWorksBeetween(
+			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start, 
+			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end)
+	{
+		return employeeMapper.employeesToDtos(employeeService.findByEmployedSinceBetween(start, end));
 	}
 	
 }

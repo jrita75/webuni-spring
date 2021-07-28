@@ -3,14 +3,29 @@ package hu.webuni.hr.rita.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 
+@Entity
 public class Company {
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String name;
 	private String reg_number;
 	private String address;
+	
+	@OneToMany(mappedBy="company", cascade = CascadeType.MERGE)
+	@MapKey
 	private Map<Long, Employee> employees;
 	
+	public Company() {
+		
+	}
 	public Company(Long id, String name, String reg_number, String address) {
 		super();
 		this.id = id;

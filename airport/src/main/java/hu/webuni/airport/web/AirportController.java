@@ -68,8 +68,7 @@ public class AirportController {
 			AirportDto savedAirportDto = airportMapper.airportToDto(airportService.update(airport));
 			return ResponseEntity.ok(savedAirportDto);
 		} catch (NoSuchElementException e) {
-			new ResponseStatusException(HttpStatus.NOT_FOUND); 
-			return ResponseEntity.notFound().build();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
 		}
 		
 	}

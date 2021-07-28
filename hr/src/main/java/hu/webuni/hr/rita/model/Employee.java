@@ -3,9 +3,18 @@ package hu.webuni.hr.rita.model;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class Employee {
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String name;
 	private String position;
@@ -13,6 +22,10 @@ public class Employee {
 	
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime employedSince;
+	
+	@ManyToOne
+	@JoinColumn(name="company_id")
+	private Company company;
 	
 	public Employee() {
 		
@@ -24,11 +37,6 @@ public class Employee {
 		this.position = position;
 		this.salary = salary;
 		this.employedSince = employedSince;
-	}
-	
-	public double getEmployedYears()
-	{
-		return employedSince.until(LocalDateTime.now(), ChronoUnit.MONTHS) / 12.0;
 	}
 	
 	public void printData() {
@@ -73,6 +81,17 @@ public class Employee {
 	public void setEmployedSince(LocalDateTime employedSince) {
 		this.employedSince = employedSince;
 	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 	
+	
+	public double getEmployedYears()
+	{
+		return employedSince.until(LocalDateTime.now(), ChronoUnit.MONTHS) / 12.0;
+	}
 	
 }

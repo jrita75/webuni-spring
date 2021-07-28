@@ -10,6 +10,8 @@ import hu.webuni.hr.rita.service.DefaultEmployeeService;
 @Configuration
 @Profile("!smart")
 public class EmployeeConfig {
+	
+	
 	@Bean
 	public EmployeeService employeeService() {
 		return new DefaultEmployeeService(); 

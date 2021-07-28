@@ -13,6 +13,7 @@ public class DefaultEmployeeService extends EmployeeService {
 	@Value("${hr.def.percent}")
 	private int percent;
 */
+	
 	@Autowired
 	private HrConfigProperties config;
 	

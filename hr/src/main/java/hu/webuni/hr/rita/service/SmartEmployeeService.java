@@ -31,6 +31,8 @@ public class SmartEmployeeService extends EmployeeService  {
 	@Value("${hr.smart.percent4}")
 	private int percent4;*/
 	
+	
+	
 	@Autowired
 	private HrConfigProperties config;
 	

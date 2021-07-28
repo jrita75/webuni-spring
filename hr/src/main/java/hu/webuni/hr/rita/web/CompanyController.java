@@ -24,6 +24,7 @@ import hu.webuni.hr.rita.mapper.EmployeeMapper;
 import hu.webuni.hr.rita.model.Company;
 import hu.webuni.hr.rita.model.Employee;
 import hu.webuni.hr.rita.service.CompanyService;
+import hu.webuni.hr.rita.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -49,6 +50,9 @@ public class CompanyController {
 	
 	@Autowired
 	CompanyService companyService;
+	
+	@Autowired
+	EmployeeService employeeService;
 	
 	@Autowired
 	CompanyMapper companyMapper;
@@ -98,8 +102,12 @@ public class CompanyController {
 			ret = ResponseEntity.notFound().build();
 		} else {
 			
-			comp.getEmployees().put(employeeDto.getId(), employeeMapper.dtoToEmployee(employeeDto));
+			Employee emp = employeeMapper.dtoToEmployee(employeeDto);
+			emp.setCompany(comp);
+			comp.getEmployees().put(employeeDto.getId(), emp);
 			CompanyDto companyDto = companyMapper.companyToDto(comp);
+			employeeService.save(emp);
+			//companyService.save(comp);
 			
 			ret = ResponseEntity.ok(companyDto);
 		}
@@ -132,7 +140,15 @@ public class CompanyController {
 			Map<Long, Employee> employees = 
 					emplist.stream().
 					collect(Collectors.toMap(EmployeeDto::getId, employeeMapper::dtoToEmployee));
+			
+			
+			employees.entrySet().stream().forEach(e -> {
+				e.getValue().setCompany(comp);
+				employeeService.save(e.getValue());
+			});
+			
 			comp.setEmployees(employees);
+			// companyService.save(comp);
 			ret = ResponseEntity.ok(companyMapper.companyToDto(comp));
 			
 		}
@@ -153,6 +169,7 @@ public class CompanyController {
 			ret = ResponseEntity.notFound().build();
 		} else {
 			comp.getEmployees().remove(emp_id);
+			employeeService.delete(emp_id);
 			ret = ResponseEntity.ok(companyMapper.companyToDto(comp));
 		}
 		

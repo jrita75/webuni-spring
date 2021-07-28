@@ -1,28 +1,30 @@
 package hu.webuni.airport.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import hu.webuni.airport.model.Airport;
+import hu.webuni.airport.model.Flight;
 import hu.webuni.airport.repository.AirportRepository;
+import hu.webuni.airport.repository.FlightRepository;
 
 @Service
 public class AirportService {
 	
 	AirportRepository airportRepository;
+	FlightRepository flightRepository;
 	
-	public AirportService(AirportRepository airportRepository) {
+	
+	public AirportService(AirportRepository airportRepository, FlightRepository flightRepository) {
 		super();
 		this.airportRepository = airportRepository;
+		this.flightRepository = flightRepository;
 	}
 
 //	@PersistenceContext
@@ -80,6 +82,17 @@ public class AirportService {
 	public void delete(long id){
 //		em.remove(findById(id));
 		airportRepository.deleteById(id);
+	}
+	
+	@Transactional
+	public void createFlight() {
+		Flight flight = new Flight();
+		flight.setFlightNumber("asdfg");
+		flight.setTakeoff(airportRepository.findById(3L).get());
+		flight.setLanding(airportRepository.findById(4L).get());
+		flight.setTakeoffTime(LocalDateTime.of(2021, 7, 26, 10, 0, 0));
+		
+		flightRepository.save(flight);
 	}
 }
 
