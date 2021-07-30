@@ -10,6 +10,8 @@ import hu.webuni.hr.rita.model.Employee;
 @Component
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
+	List<Employee> findBySalaryGreaterThan(Integer minSalary);
+	
 	List<Employee> findByPosition(String position);
 	List<Employee> findByNameStartsWithIgnoreCase(String name);
 	List<Employee> findByEmployedSinceBetween(LocalDateTime start, LocalDateTime end);

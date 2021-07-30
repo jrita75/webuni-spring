@@ -46,5 +46,11 @@ abstract public class EmployeeService {
 	public void delete(long id){
 		employeeRepository.deleteById(id);
 	} 
+	
+	public Employee update(Employee employee) {
+		if(!employeeRepository.existsById(employee.getId()))
+			return null;
+		return employeeRepository.save(employee);
+	}
 
 }

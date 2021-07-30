@@ -1,7 +1,6 @@
 package hu.webuni.hr.rita.web;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import hu.webuni.hr.rita.dto.EmployeeDto;
 import hu.webuni.hr.rita.mapper.EmployeeMapper;
 import hu.webuni.hr.rita.model.Employee;
+import hu.webuni.hr.rita.repository.EmployeeRepository;
 import hu.webuni.hr.rita.service.EmployeeService;
 
 @RestController
@@ -33,6 +33,9 @@ public class EmployeeController {
 	
 	@Autowired
 	EmployeeMapper employeeMapper;
+	
+	@Autowired
+	EmployeeRepository employeeRepository;
 	
 	@GetMapping
 	public List<EmployeeDto> getAll(){
@@ -63,17 +66,13 @@ public class EmployeeController {
 	@PutMapping("/{id}")
 	public ResponseEntity<EmployeeDto> modifyEmployee(@PathVariable long id, @RequestBody @Valid EmployeeDto employeeDto)
 	{
-		Employee employee_found = employeeService.findById(id);
-		Employee employee = employeeMapper.dtoToEmployee(employeeDto);
-		ResponseEntity<EmployeeDto> ret;
-		if (employee_found != null) {
-			employee.setId(id);
-			employeeService.save(employee);
-			ret = ResponseEntity.ok(employeeMapper.employeeToDto(employee));
+		employeeDto.setId(id);
+		Employee updatedEmployee = employeeService.update(employeeMapper.dtoToEmployee(employeeDto));
+		if(updatedEmployee == null) {
+			return ResponseEntity.notFound().build();
 		} else {
-			ret = ResponseEntity.notFound().build();
+			return ResponseEntity.ok(employeeMapper.employeeToDto(updatedEmployee));
 		}
-		return ret;
 	}
 	
 	@DeleteMapping("/{id}")
@@ -83,17 +82,16 @@ public class EmployeeController {
 	}
 	
 	@GetMapping(/*params="query=*"*/"/list")
-	public List<EmployeeDto> getWithHigherSalary(@RequestParam("query") int salary)
+	public List<EmployeeDto> getWithHigherSalary(@RequestParam("query") Integer salary)
 	{
 		
-		List<EmployeeDto> ret = new ArrayList<>();
-		for(Employee emp: employeeService.findAll()) {
-			if (emp.getSalary() >= salary) {
-				ret.add(employeeMapper.employeeToDto(emp));
-			}
+		List<Employee> employees = null;
+		if(salary == null) {
+			employees = employeeService.findAll();
+		} else {
+			employees = employeeRepository.findBySalaryGreaterThan(salary);
 		}
-		
-		return ret;
+		return employeeMapper.employeesToDtos(employees);
 	}
 	
 	@GetMapping("/position")

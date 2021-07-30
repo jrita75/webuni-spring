@@ -1,22 +1,30 @@
 package hu.webuni.hr.rita.dto;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import hu.webuni.hr.rita.model.CompanyType;
 
 public class CompanyDto {
 	private Long id;
 	private String name;
 	private String reg_number;
 	private String address;
-	private Map<Long, EmployeeDto> employees;
+	@Enumerated(EnumType.STRING)
+	private CompanyType type;
 	
-	public CompanyDto(Long id, String name, String reg_number, String address) {
+	private List<EmployeeDto> employees = new ArrayList<>();
+	
+	public CompanyDto(Long id, String name, String reg_number, String address, List<EmployeeDto> employees) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.reg_number = reg_number;
 		this.address = address;
-		this.employees = new HashMap<Long, EmployeeDto>();
+		this.employees = employees;
 	}
 	
 	public Long getId() {
@@ -43,10 +51,16 @@ public class CompanyDto {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Map<Long, EmployeeDto> getEmployees() {
+	public CompanyType getType() {
+		return type;
+	}
+	public void setType(CompanyType type) {
+		this.type = type;
+	}
+	public List<EmployeeDto> getEmployees() {
 		return employees;
 	}
-	public void setEmployees(Map<Long, EmployeeDto> employees) {
+	public void setEmployees(List<EmployeeDto> employees) {
 		this.employees = employees;
 	}
 	

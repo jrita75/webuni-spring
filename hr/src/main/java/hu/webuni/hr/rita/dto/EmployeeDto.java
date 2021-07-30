@@ -3,7 +3,7 @@ package hu.webuni.hr.rita.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.NotEmpty;	
 
 public class EmployeeDto {
@@ -12,10 +12,11 @@ public class EmployeeDto {
 	private String name;
 	@NotEmpty
 	private String position;
-	@Min(1)
+	@Positive
 	private int salary;
 	@Past
 	private LocalDateTime employedSince;
+	private CompanyDto company;
 	
 	public Long getId() {
 		return id;
@@ -46,6 +47,13 @@ public class EmployeeDto {
 	}
 	public void setEmployedSince(LocalDateTime employedSince) {
 		this.employedSince = employedSince;
+	}
+	public CompanyDto getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyDto company) {
+		this.company = company;
 	}
 	public EmployeeDto(Long id, String name, String position, int salary, LocalDateTime employedSince) {
 		super();

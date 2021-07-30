@@ -2,6 +2,7 @@ package hu.webuni.hr.rita.model;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -88,7 +89,21 @@ public class Employee {
 		this.company = company;
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		return Objects.equals(id, other.id);
+	}
 	public double getEmployedYears()
 	{
 		return employedSince.until(LocalDateTime.now(), ChronoUnit.MONTHS) / 12.0;
