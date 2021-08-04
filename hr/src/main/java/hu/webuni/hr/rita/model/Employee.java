@@ -18,7 +18,10 @@ public class Employee {
 	@GeneratedValue
 	private Long id;
 	private String name;
-	private String position;
+	// private String position;
+	@ManyToOne
+	@JoinColumn(name="position_id")
+	private Position position;
 	private int salary;
 	
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -31,7 +34,7 @@ public class Employee {
 	public Employee() {
 		
 	}
-	public Employee(Long id, String name, String position, int salary, LocalDateTime employedSince) {
+	public Employee(Long id, String name, Position position, int salary, LocalDateTime employedSince) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,7 +47,7 @@ public class Employee {
 		System.out.println("----------------------------");
 		System.out.println("id:\t\t"+id);
 		System.out.println("name:\t\t"+name);
-		System.out.println("position:\t"+position);
+		System.out.println("position:\t"+position.getName());
 		System.out.println("salary:\t\t"+salary);
 		System.out.println("employed since:\t"+employedSince.toString());
 		System.out.println("employed years:\t"+getEmployedYears());
@@ -64,10 +67,10 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 	public int getSalary() {

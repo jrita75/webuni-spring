@@ -8,7 +8,7 @@ import hu.webuni.hr.rita.config.HrConfigProperties;
 import hu.webuni.hr.rita.model.Employee;
 
 @Service
-public class DefaultEmployeeService extends EmployeeService {
+public class DefaultEmployeeService extends AbstractEmployeeService {
 /*
 	@Value("${hr.def.percent}")
 	private int percent;

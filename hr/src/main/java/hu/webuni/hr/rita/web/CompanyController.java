@@ -24,7 +24,7 @@ import hu.webuni.hr.rita.mapper.CompanyMapper;
 import hu.webuni.hr.rita.mapper.EmployeeMapper;
 import hu.webuni.hr.rita.model.Company;
 import hu.webuni.hr.rita.service.CompanyService;
-import hu.webuni.hr.rita.service.EmployeeService;
+import hu.webuni.hr.rita.service.AbstractEmployeeService;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -52,7 +52,7 @@ public class CompanyController {
 	CompanyService companyService;
 	
 	@Autowired
-	EmployeeService employeeService;
+	AbstractEmployeeService employeeService;
 	
 	@Autowired
 	CompanyMapper companyMapper;

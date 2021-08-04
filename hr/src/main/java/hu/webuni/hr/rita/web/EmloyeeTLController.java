@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import hu.webuni.hr.rita.model.Employee;
+import hu.webuni.hr.rita.model.Position;
+import hu.webuni.hr.rita.model.Qualification;
 
 @Controller
 public class EmloyeeTLController {
 	private List<Employee> employeeList = new ArrayList<>();
 	{
-		employeeList.add(new Employee(1L, "Egyeske", "titkárnő", 250000, LocalDateTime.of(2020, 1, 1, 0, 0)));
-		employeeList.add(new Employee(2L, "Ketteske", "tesztelő", 250000, LocalDateTime.of(2018, 1, 1, 0, 0)));
-		employeeList.add(new Employee(3L, "Hármaska", "tesztelő", 250000, LocalDateTime.of(2017, 1, 1, 0, 0)));
-		employeeList.add(new Employee(4L, "Négyeske", "tesztelő", 250000, LocalDateTime.of(2010, 1, 1, 0, 0)));
-		employeeList.add(new Employee(5L, "Ötöske", "tesztelő", 250000, LocalDateTime.of(2018, 11, 1, 0, 0)));
+		Position pos1 = new Position(1L, "titkárnő", Qualification.COLLEGE, 100000);
+		Position pos2 = new Position(2L, "tesztelő", Qualification.GRADUATION, 100000);
+		
+		employeeList.add(new Employee(1L, "Egyeske", pos1, 250000, LocalDateTime.of(2020, 1, 1, 0, 0)));
+		employeeList.add(new Employee(2L, "Ketteske", pos2, 250000, LocalDateTime.of(2018, 1, 1, 0, 0)));
+		employeeList.add(new Employee(3L, "Hármaska", pos2, 250000, LocalDateTime.of(2017, 1, 1, 0, 0)));
+		employeeList.add(new Employee(4L, "Négyeske", pos2, 250000, LocalDateTime.of(2010, 1, 1, 0, 0)));
+		employeeList.add(new Employee(5L, "Ötöske", pos2, 250000, LocalDateTime.of(2018, 11, 1, 0, 0)));
 		
 	}
 	@GetMapping("/")

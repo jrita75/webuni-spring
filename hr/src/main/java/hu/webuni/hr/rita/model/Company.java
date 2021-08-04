@@ -8,6 +8,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,7 +21,9 @@ public class Company {
 	private String reg_number;
 	private String address;
 	
-	@Enumerated(EnumType.STRING)
+	//@Enumerated(EnumType.ORDINAL)
+	@ManyToOne
+	@JoinColumn(name="company_type_id")
 	private CompanyType type;
 	
 	@OneToMany(mappedBy="company")
@@ -29,13 +33,14 @@ public class Company {
 	public Company() {
 		
 	}
-	public Company(Long id, String name, String reg_number, String address, List<Employee> employees) {
+	public Company(Long id, String name, String reg_number, String address, List<Employee> employees, CompanyType type) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.reg_number = reg_number;
 		this.address = address;
 		this.employees = employees;
+		this.type = type;
 	}
 	public Long getId() {
 		return id;

@@ -6,9 +6,9 @@ import hu.webuni.hr.rita.model.Employee;
 @Service
 public class SalaryService {
 	
-	private EmployeeService employeeService;
+	private AbstractEmployeeService employeeService;
 	
-	public SalaryService(EmployeeService employeeService) {
+	public SalaryService(AbstractEmployeeService employeeService) {
 		//super();
 		this.employeeService = employeeService;
 	}

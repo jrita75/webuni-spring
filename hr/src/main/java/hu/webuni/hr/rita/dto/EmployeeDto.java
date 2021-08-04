@@ -11,7 +11,7 @@ public class EmployeeDto {
 	@NotEmpty
 	private String name;
 	@NotEmpty
-	private String position;
+	private PositionDto position;
 	@Positive
 	private int salary;
 	@Past
@@ -30,10 +30,10 @@ public class EmployeeDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPosition() {
+	public PositionDto getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(PositionDto position) {
 		this.position = position;
 	}
 	public int getSalary() {
@@ -55,7 +55,7 @@ public class EmployeeDto {
 	public void setCompany(CompanyDto company) {
 		this.company = company;
 	}
-	public EmployeeDto(Long id, String name, String position, int salary, LocalDateTime employedSince) {
+	public EmployeeDto(Long id, String name, PositionDto position, int salary, LocalDateTime employedSince) {
 		super();
 		this.id = id;
 		this.name = name;

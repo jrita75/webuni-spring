@@ -3,28 +3,26 @@ package hu.webuni.hr.rita.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 import hu.webuni.hr.rita.model.CompanyType;
 
 public class CompanyDto {
-	private Long id;
+	private long id;
 	private String name;
 	private String reg_number;
 	private String address;
-	@Enumerated(EnumType.STRING)
 	private CompanyType type;
 	
 	private List<EmployeeDto> employees = new ArrayList<>();
 	
-	public CompanyDto(Long id, String name, String reg_number, String address, List<EmployeeDto> employees) {
+	public CompanyDto(Long id, String name, String reg_number, String address, List<EmployeeDto> employees, CompanyType type) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.reg_number = reg_number;
 		this.address = address;
 		this.employees = employees;
+		this.type = type;
 	}
 	
 	public Long getId() {

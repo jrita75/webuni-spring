@@ -1,17 +1,17 @@
 package hu.webuni.hr.rita.model;
 
 public class PositionAvgSalary {
-	private String position;
+	private Position position;
     private Double avgSalary;
-	public PositionAvgSalary(String position, Double avgSalary) {
+	public PositionAvgSalary(Position position, Double avgSalary) {
 		super();
 		this.position = position;
 		this.avgSalary = avgSalary;
 	}
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 	public Double getAvgSalary() {

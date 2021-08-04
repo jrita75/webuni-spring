@@ -2,10 +2,14 @@ package hu.webuni.hr.rita.web;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,14 +26,14 @@ import hu.webuni.hr.rita.dto.EmployeeDto;
 import hu.webuni.hr.rita.mapper.EmployeeMapper;
 import hu.webuni.hr.rita.model.Employee;
 import hu.webuni.hr.rita.repository.EmployeeRepository;
-import hu.webuni.hr.rita.service.EmployeeService;
+import hu.webuni.hr.rita.service.AbstractEmployeeService;
 
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
 	
 	@Autowired
-	EmployeeService employeeService;
+	AbstractEmployeeService employeeService;
 	
 	@Autowired
 	EmployeeMapper employeeMapper;
@@ -45,11 +49,11 @@ public class EmployeeController {
 	@GetMapping("/{id}")
 	public ResponseEntity<EmployeeDto> getById(@PathVariable long id)
 	{
-		Employee employee = employeeService.findById(id);
+		Optional<Employee> employee_opt = employeeService.findById(id);
 		ResponseEntity<EmployeeDto> ret;
 		
-		if (employee!=null) {
-			ret = ResponseEntity.ok(employeeMapper.employeeToDto(employee));
+		if (employee_opt.isPresent()) {
+			ret = ResponseEntity.ok(employeeMapper.employeeToDto(employee_opt.get()));
 		} else {
 			ret = ResponseEntity.notFound().build();
 		}
@@ -81,7 +85,7 @@ public class EmployeeController {
 		employeeService.delete(id);
 	}
 	
-	@GetMapping(/*params="query=*"*/"/list")
+	@GetMapping("/list")
 	public List<EmployeeDto> getWithHigherSalary(@RequestParam("query") Integer salary)
 	{
 		
@@ -111,9 +115,14 @@ public class EmployeeController {
 	@GetMapping("/between")
 	public List<EmployeeDto> getWorksBeetween(
 			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start, 
-			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end)
+			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam("page") int page,
+			@RequestParam("size") int size
+	)
 	{
-		return employeeMapper.employeesToDtos(employeeService.findByEmployedSinceBetween(start, end));
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Employee> p = employeeService.findByEmployedSinceBetween(start, end, pageable);
+		return employeeMapper.employeesToDtos(p.toList());
 	}
 	
 }
