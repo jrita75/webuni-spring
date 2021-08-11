@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class Flight {
 	@Id
 	@GeneratedValue
-	private long Id;
+	private long id;
 	
 	@ManyToOne
 	private Airport takeoff;
@@ -23,10 +23,10 @@ public class Flight {
 	private LocalDateTime takeoffTime;
 	
 	public long getId() {
-		return Id;
+		return id;
 	}
 	public void setId(long id) {
-		Id = id;
+		this.id = id;
 	}
 	public Airport getTakeoff() {
 		return takeoff;

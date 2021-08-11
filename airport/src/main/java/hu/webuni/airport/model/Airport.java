@@ -39,6 +39,10 @@ public class Airport {
 		this.name = name;
 		this.iata = iata;
 	}
+	public Airport(String name, String iata) {
+		this.name = name;
+		this.iata = iata;
+	}
 	public Airport() {
 	
 	}

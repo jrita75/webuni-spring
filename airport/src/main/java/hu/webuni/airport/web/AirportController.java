@@ -35,6 +35,8 @@ public class AirportController {
 	@Autowired
 	AirportMapper airportMapper;
 	
+	
+	
 	@GetMapping
 	public List<AirportDto> getAll()
 	{
@@ -66,6 +68,7 @@ public class AirportController {
 		airport.setId(id);
 		try {
 			AirportDto savedAirportDto = airportMapper.airportToDto(airportService.update(airport));
+			
 			return ResponseEntity.ok(savedAirportDto);
 		} catch (NoSuchElementException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND); 

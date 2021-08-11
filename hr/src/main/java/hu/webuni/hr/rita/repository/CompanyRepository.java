@@ -2,6 +2,7 @@ package hu.webuni.hr.rita.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	@Query("SELECT new hu.webuni.hr.rita.model.PositionAvgSalary(e.position, AVG(e.salary)) FROM Employee e WHERE e.company.id=:id GROUP BY e.position ORDER BY AVG(e.salary) DESC")
 	List<PositionAvgSalary> getAvgSalariesByPosition(long id);
 	
-	
+	// @Query("SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.employees")
+	// @EntityGraph(attributePaths = "employees")
+	@EntityGraph("Company.full")
+	@Query("SELECT c FROM Company c")
+	List<Company> findAllWithEmployees();
 }

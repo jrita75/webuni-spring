@@ -10,8 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
+@NamedEntityGraph(
+		name = "Company.full", 
+		attributeNodes = @NamedAttributeNode("employees")
+)
 @Entity
 public class Company {
 	@Id

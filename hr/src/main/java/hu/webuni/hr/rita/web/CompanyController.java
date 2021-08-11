@@ -23,6 +23,7 @@ import hu.webuni.hr.rita.dto.EmployeeDto;
 import hu.webuni.hr.rita.mapper.CompanyMapper;
 import hu.webuni.hr.rita.mapper.EmployeeMapper;
 import hu.webuni.hr.rita.model.Company;
+import hu.webuni.hr.rita.repository.CompanyRepository;
 import hu.webuni.hr.rita.service.CompanyService;
 import hu.webuni.hr.rita.service.AbstractEmployeeService;
 
@@ -60,12 +61,18 @@ public class CompanyController {
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
+	@Autowired
+	CompanyRepository companyRepository;
+	
 	@GetMapping
 	public List<CompanyDto> getAllCompanies(@RequestParam(required = false, defaultValue = "false") Boolean full) {
-		List<Company> companies = companyService.findAll();
-		if(full != null && full) {
+		boolean notFull = full != null && full;
+		List<Company> companies = null;
+		if(notFull) {
+			companies = companyService.findAll();
 			return companyMapper.companiesToDtos(companies);
 		} else {
+			companyRepository.findAllWithEmployees();
 			return companyMapper.companiesToSummaryDtos(companies);
 		}
 	}
